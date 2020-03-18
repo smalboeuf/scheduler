@@ -5,6 +5,8 @@ import DayList from "components/DayList";
 import "components/Application.scss";
 import Appointment from "components/Appointment";
 
+import { getAppointmentsForDay } from "components/helpers/selectors";
+
 const appointments = [
   {
     id: 1,
