@@ -26,7 +26,7 @@ export default function Form(props) {
             name="name"
             type="text"
             placeholder="Enter Student Name"
-            value={name ? name : ""}
+
             /*
           This must be a controlled component
         */
