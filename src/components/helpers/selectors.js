@@ -29,8 +29,10 @@ export function getInterview(state, interview) {
   }
 
   for (const interviewer in state.interviewers) {
-    if (interview.interviewer.toString() === interviewer) {
-      interviewerData = state.interviewers[`${interviewer}`];
+    if (interview.interviewer) {
+      if (interview.interviewer.toString() === interviewer) {
+        interviewerData = state.interviewers[`${interviewer}`];
+      }
     }
   }
 

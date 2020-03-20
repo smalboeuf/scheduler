@@ -12,8 +12,6 @@ import "components/Application.scss";
 import Appointment from "components/Appointment";
 
 export default function Application(props) {
-  // const [day, setDay] = useState("Monday");
-  // const [days, setDays] = useState([]);
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -59,11 +57,14 @@ export default function Application(props) {
       appointments
     });
 
-    axios.put(`http://localhost:8001/api/appointments/${id}`, appointment);
+    return axios.put(
+      `http://localhost:8001/api/appointments/${id}`,
+      appointment
+    );
   }
 
   function deleteInterview(id) {
-    axios.delete(`http://localhost:8001/api/appointments/${id}`);
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`);
   }
 
   function edit(id, interview) {
