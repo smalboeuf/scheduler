@@ -26,10 +26,8 @@ export default function Form(props) {
             name="name"
             type="text"
             placeholder="Enter Student Name"
-
-            /*
-          This must be a controlled component
-        */
+            value={name}
+            onChange={event => setName(event.target.value)}
           />
         </form>
         <InterviewerList
@@ -45,7 +43,7 @@ export default function Form(props) {
           <Button onClick={() => cancel()} danger>
             Cancel
           </Button>
-          <Button onClick={props.onSave} confirm>
+          <Button onClick={() => props.onSave(name, interviewer)} confirm>
             Save
           </Button>
         </section>

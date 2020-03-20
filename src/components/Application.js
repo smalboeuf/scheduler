@@ -44,7 +44,45 @@ export default function Application(props) {
     });
   }, []);
 
-  function bookInterview() {}
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    setState({
+      ...state,
+      appointments
+    });
+
+    axios.put(`http://localhost:8001/api/appointments/${id}`, appointment);
+  }
+
+  function deleteInterview(id) {
+    axios.delete(`http://localhost:8001/api/appointments/${id}`);
+  }
+
+  function edit(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    setState({
+      ...state,
+      appointments
+    });
+
+    axios.put(`http://localhost:8001/api/appointments/${id}`, appointment);
+  }
 
   return (
     <main className="layout">
@@ -75,6 +113,9 @@ export default function Application(props) {
               time={appointment.time}
               interview={interview}
               interviewers={getInterviewersForDay(state, state.day)}
+              bookInterview={bookInterview}
+              deleteInterview={deleteInterview}
+              editInterview={edit}
             />
           );
         })}
