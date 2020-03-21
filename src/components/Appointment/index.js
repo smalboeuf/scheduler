@@ -37,7 +37,11 @@ export default function Appointment(props) {
       if (props.id && interview.student && interview.interviewer) {
         props
           .bookInterview(props.id, interview)
-          .then(() => transition(SHOW))
+          .then(() => {
+            //Decrease from spots
+
+            transition(SHOW);
+          })
           .catch(error => transition(ERROR_SAVE, true));
       } else {
         transition(ERROR_SAVE, true);

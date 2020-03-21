@@ -3,7 +3,6 @@ import React from "react";
 import "components/InterviewerList.scss";
 
 import InterviewerListItem from "components/InterviewerListItem";
-import { render } from "@testing-library/react";
 
 export default function InterviewerList(props) {
   return (
