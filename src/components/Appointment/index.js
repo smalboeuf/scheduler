@@ -44,9 +44,28 @@ export default function Appointment(props) {
 		}
 	}
 
+
 	function deleteAppointment() {
 		transition(DELETE, true);
 		props.deleteInterview(props.id).then(() => transition(EMPTY)).catch(() => transition(ERROR_DELETE, true));
+	}
+
+	function edit(name, interviewer){
+		const interview = {
+			student: name,
+			interviewer
+		};
+		transition(SAVING);
+		if (props.id && interview.student && interview.interviewer) {
+			props
+				.editInterview(props.id, interview)
+				.then(() => {
+					transition(SHOW);
+				})
+				.catch((error) => transition(ERROR_SAVE, true));
+		} else {
+			transition(ERROR_SAVE, true);
+		}
 	}
 
 	return (
@@ -80,7 +99,7 @@ export default function Appointment(props) {
 					name={props.interview.student}
 					interviewer={props.interview.interviewer.id}
 					onCancel={() => back()}
-					onSave={save}
+					onSave={edit}
 				/>
 			)}
 			{mode === ERROR_SAVE && <Error message={'Could not save the appointment.'} onClose={() => back()} />}

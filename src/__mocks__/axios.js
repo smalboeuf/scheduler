@@ -83,8 +83,8 @@ export default {
 		}
 	}),
 	put: jest.fn((url) => {
+		console.log("AXIOS PUT", url);
 		if (url === 'http://localhost:8001/api/days/') {
-			console.log(fixture.days[0]);
 			return Promise.resolve({
 				status: 204,
 				statusText: 'No Content'
@@ -93,6 +93,15 @@ export default {
 		}
 
 		if (url === 'http://localhost:8001/api/appointments/1') {
+			/* Resolve appointments data */
+			return Promise.resolve({
+				status: 204,
+				statusText: 'No Content'
+				// data: fixtures.appointments
+			});
+		}
+
+		if (url === 'http://localhost:8001/api/appointments/2') {
 			/* Resolve appointments data */
 			return Promise.resolve({
 				status: 204,
@@ -110,7 +119,8 @@ export default {
 			});
 		}
 	}),
-	delete: jest.fn((url) => {
+	"delete": jest.fn((url) => {
+		console.log("AXIOS DELETE", url)
 		if (url === 'http://localhost:8001/api/days') {
 			return Promise.resolve({
 				status: 200,
@@ -119,7 +129,7 @@ export default {
 			});
 		}
 
-		if (url === 'http://localhost:8001/api/appointments') {
+		if (url === `http://localhost:8001/api/appointments/2`) {
 			/* Resolve appointments data */
 			return Promise.resolve({
 				status: 200,
