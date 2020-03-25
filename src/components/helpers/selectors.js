@@ -43,23 +43,16 @@ export function getInterview(state, interview) {
 }
 
 export function getInterviewersForDay(state, day) {
-  let filteredInterviewer = state.days.filter(
-    uncertainDay => uncertainDay.name === day
-  )[0];
+  let res = [];
+  if (state.days) {
+    const found = state.days.find(stateDay => stateDay.name === day);
 
-  if (!filteredInterviewer) {
-    return [];
-  } else {
-    const interviewerArray = filteredInterviewer.appointments;
-    const interviewerObjects = [];
-
-    for (let id = 0; id < interviewerArray.length; id++) {
-      if (state.appointments[interviewerArray[id].toString()]) {
-        interviewerObjects.push(
-          state.interviewers[interviewerArray[id].toString()]
-        );
-      }
+    if (found && found.interviewers) {
+      found.interviewers.forEach(id => {
+        res.push(state.interviewers[id]);
+      });
     }
-    return interviewerObjects;
   }
+
+  return res;
 }
