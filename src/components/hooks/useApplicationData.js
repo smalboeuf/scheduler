@@ -43,7 +43,7 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    increaseSpots(state.day);
+    updateSpots(state.day, 1);
 
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, appointment)
@@ -85,7 +85,7 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    decreaseSpots(state.day);
+    updateSpots(state.day, -1);
 
     return axios.delete(`http://localhost:8001/api/appointments/${id}`).then(
       setState({
@@ -95,34 +95,14 @@ export default function useApplicationData() {
     );
   }
 
-  function increaseSpots(day) {
+  function updateSpots(day, howMuch) {
     const dayAppointments = getAppointmentsForDay(state, day);
     let newDays = state.days;
 
     for (let i = 0; i < newDays.length; i++) {
       if (newDays[i].name === day) {
         let newDay = newDays[i];
-        let amountOfAppointments = 1;
-        for (let y = 0; y < dayAppointments.length; y++) {
-          if (dayAppointments[y].interview) {
-            amountOfAppointments++;
-          }
-        }
-        newDay.spots = newDay.appointments.length - amountOfAppointments;
-        setDay(newDay);
-        break;
-      }
-    }
-  }
-
-  function decreaseSpots(day) {
-    const dayAppointments = getAppointmentsForDay(state, day);
-    let newDays = state.days;
-
-    for (let i = 0; i < newDays.length; i++) {
-      if (newDays[i].name === day) {
-        let newDay = newDays[i];
-        let amountOfAppointments = -1;
+        let amountOfAppointments = howMuch;
         for (let y = 0; y < dayAppointments.length; y++) {
           if (dayAppointments[y].interview) {
             amountOfAppointments++;
