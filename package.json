@@ -14,6 +14,8 @@
     "react-scripts": "3.0.0"
   },
   "scripts": {
+    "cypress": "cypress open -P .",
+    "test:server": "NODE_ENV=test npm start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -44,6 +46,7 @@
     "@testing-library/react": "^8.0.7",
     "@testing-library/react-hooks": "^3.2.1",
     "babel-loader": "^8.0.5",
+    "cypress": "^4.2.0",
     "node-sass": "^4.11.0",
     "react-test-renderer": "^16.9.0"
   },
