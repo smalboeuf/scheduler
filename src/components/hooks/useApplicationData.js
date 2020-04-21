@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { getAppointmentsForDay } from "components/helpers/selectors";
 
 export default function useApplicationData() {
   const [state, setState] = useState({
@@ -31,7 +30,7 @@ export default function useApplicationData() {
         interviewers: result[2].data
       });
     });
-  }, []);
+  }, [state.day]);
 
   function bookInterview(id, interview) {
     const appointment = {
@@ -45,14 +44,13 @@ export default function useApplicationData() {
 
     updateSpots(state.day, 1);
 
-    return axios
-      .put(`http://localhost:8001/api/appointments/${id}`, appointment)
-      .then(
-        setState({
-          ...state,
-          appointments
-        })
-      );
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment).then(() => {
+      setState({
+        ...state,
+        appointments,
+        days: updateSpots(state.day, -1),
+      });
+    });
   }
 
   function edit(id, interview) {
@@ -87,32 +85,20 @@ export default function useApplicationData() {
 
     updateSpots(state.day, -1);
 
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`).then(
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`).then(() => {
       setState({
         ...state,
-        appointments
-      })
-    );
+        appointments,
+        days: updateSpots(state.day, 1),
+      });
+    });
   }
 
   function updateSpots(day, howMuch) {
-    const dayAppointments = getAppointmentsForDay(state, day);
-    let newDays = state.days;
-
-    for (let i = 0; i < newDays.length; i++) {
-      if (newDays[i].name === day) {
-        let newDay = newDays[i];
-        let amountOfAppointments = howMuch;
-        for (let y = 0; y < dayAppointments.length; y++) {
-          if (dayAppointments[y].interview) {
-            amountOfAppointments++;
-          }
-        }
-        newDay.spots = newDay.appointments.length - amountOfAppointments;
-        setDay(newDay);
-        break;
-      }
-    }
+    const foundDay = state.days.find((d) => d.name === day);
+    const updatedDay = { ...foundDay, spots: foundDay.spots + howMuch };
+    const updatedDays = state.days.map((d) => (d.name === day ? updatedDay : d));
+    return updatedDays;
   }
 
   return { state, setDay, bookInterview, deleteInterview, edit };
